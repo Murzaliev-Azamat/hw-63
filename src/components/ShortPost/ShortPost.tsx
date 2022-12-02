@@ -9,10 +9,6 @@ interface Props {
 
 const ShortPost: React.FC<Props> = ({title,date, id}) => {
 
-  const OpenPost = () => {
-
-  }
-
   return (
     <div style={{border: "1px solid black", padding: "10px", marginTop: "5px"}}>
       <p className="text-secondary">Created on: {date}</p>

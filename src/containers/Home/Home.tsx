@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import ShortPost from "../../components/ShortPost/ShortPost";
 import {Post, PostList} from "../../types";
 import axiosApi from "../../axiosApi";
+import Spinner from "../../components/Spinner/Spinner";
 
 
 const Home = () => {
@@ -27,12 +28,22 @@ const Home = () => {
     void fetchPosts();
   }, [fetchPosts]);
 
-  return (
+  let list = (
     <div>
       {posts.map((post) => (
-          <ShortPost key={post.id} title={post.title} date={post.date} id={post.id}/>
+        <ShortPost key={post.id} title={post.title} date={post.date} id={post.id}/>
       ))}
     </div>
+  );
+
+  if (loading) {
+    list = <Spinner/>
+  }
+
+  return (
+    <>
+    {list}
+    </>
   );
 };
 

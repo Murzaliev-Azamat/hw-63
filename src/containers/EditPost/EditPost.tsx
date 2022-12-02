@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import {Post, SendingPost} from "../../types";
 import PostForm from "../../components/PostForm/PostForm";
+import Spinner from "../../components/Spinner/Spinner";
 
 const EditPost = () => {
   const {id} = useParams();
@@ -12,6 +13,7 @@ const EditPost = () => {
 
   const fetchOnePost = useCallback(async () => {
     try {
+      setLoading(true);
       const postResponse = await axiosApi.get<Post>('/posts/' + id + '.json');
       setPost(postResponse.data);
     } finally {
@@ -27,6 +29,7 @@ const EditPost = () => {
     setLoading(true);
 
     try {
+      setLoading(true);
       await axiosApi.put("/posts/" + id + '.json', post);
       navigate('/');
     } finally {
@@ -34,12 +37,20 @@ const EditPost = () => {
     }
   };
 
-  return (
+  let info = (
     <div>
-      <h4>Edit post id={id}</h4>
       {post && (<PostForm existingPost={post} onSubmit={updatePost}/>)}
-
     </div>
+  );
+
+  if (loading) {
+    info = <Spinner/>
+  }
+
+  return (
+    <>
+      {info}
+    </>
   );
 };
 

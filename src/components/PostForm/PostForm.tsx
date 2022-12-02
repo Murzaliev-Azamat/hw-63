@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
-import axiosApi from "../../axiosApi";
-import {useNavigate} from "react-router-dom";
 import {Post, SendingPost} from "../../types";
-import Spinner from "../Spinner/Spinner";
 
 interface PostMutation {
   title: string;
@@ -15,11 +12,8 @@ interface Props {
 }
 
 const PostForm: React.FC<Props> = ({onSubmit, existingPost}) => {
-  // const navigate = useNavigate();
   const initialState = existingPost ? {...existingPost} : {title: '', message: '',};
   const [post, setPost] = useState<PostMutation>(initialState);
-
-  // const [loading, setLoading] = useState(false);
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -32,15 +26,13 @@ const PostForm: React.FC<Props> = ({onSubmit, existingPost}) => {
 
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     onSubmit({date: new Date().toString(), ...post})
   }
 
-
-  let form = (
+  return (
     <form onSubmit={onFormSubmit}>
       <input
-        className="d-block"
+        className="d-block mt-2"
         type="text"
         name="title"
         placeholder="Введите заголовок"
@@ -48,24 +40,14 @@ const PostForm: React.FC<Props> = ({onSubmit, existingPost}) => {
         onChange={onTextFieldChange}
       />
       <textarea
-        className="d-block"
+        className="d-block mt-2"
         name="message"
         placeholder="Введите сообщение"
         value={post.message}
         onChange={onTextFieldChange}
       />
-      <button type="submit" className="d-block btn btn-primary">Save</button>
+      <button type="submit" className="d-block btn btn-primary mt-2">Save</button>
     </form>
-  );
-
-  // if (loading) {
-  //   form = <Spinner/>
-  // }
-
-  return (
-    <>
-    {form}
-    </>
   );
 };
 

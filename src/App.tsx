@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
 import Home from "./containers/Home/Home";
 import AddPost from "./containers/AddPost/AddPost";
@@ -6,8 +6,6 @@ import About from "./containers/About/About";
 import Contacts from "./containers/Contacts/Contacts";
 import {NavLink, Route, Routes} from "react-router-dom";
 import EditPost from "./containers/EditPost/EditPost";
-import {Post, PostList} from "./types";
-import axiosApi from "./axiosApi";
 import FullPost from "./containers/FullPost/FullPost";
 
 function App() {
