@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axiosApi from "../../axiosApi";
 import {useNavigate} from "react-router-dom";
-import {Post} from "../../types";
+import {Post, SendingPost} from "../../types";
 import Spinner from "../Spinner/Spinner";
 
 interface PostMutation {
@@ -9,15 +9,17 @@ interface PostMutation {
   message: string;
 }
 
-const PostForm = () => {
-  const navigate = useNavigate();
+interface Props {
+  onSubmit: (post: SendingPost) => void;
+  existingPost?: Post | null;
+}
 
-  const [post, setPost] = useState<PostMutation>({
-    title: '',
-    message: '',
-  });
+const PostForm: React.FC<Props> = ({onSubmit, existingPost}) => {
+  // const navigate = useNavigate();
+  const initialState = existingPost ? {...existingPost} : {title: '', message: '',};
+  const [post, setPost] = useState<PostMutation>(initialState);
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -28,24 +30,12 @@ const PostForm = () => {
     }))
   };
 
-  const onFormSubmit = async (e: React.FormEvent) => {
+  const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
-    const sendingPost: Post = {
-      date: new Date().toString(),
-      title: post.title,
-      message: post.message,
-    }
+    onSubmit({date: new Date().toString(), ...post})
+  }
 
-    try {
-      await axiosApi.post("/posts.json", sendingPost);
-      navigate('/');
-    } finally {
-      setLoading(false);
-    }
-
-  };
 
   let form = (
     <form onSubmit={onFormSubmit}>
@@ -68,9 +58,9 @@ const PostForm = () => {
     </form>
   );
 
-  if (loading) {
-    form = <Spinner/>
-  }
+  // if (loading) {
+  //   form = <Spinner/>
+  // }
 
   return (
     <>

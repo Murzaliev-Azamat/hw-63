@@ -1,11 +1,23 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
-const ShortPost = () => {
+interface Props {
+  title: string;
+  date: string;
+  id: string,
+}
+
+const ShortPost: React.FC<Props> = ({title,date, id}) => {
+
+  const OpenPost = () => {
+
+  }
+
   return (
     <div style={{border: "1px solid black", padding: "10px", marginTop: "5px"}}>
-      <p className="text-secondary">Created on: 8435y73847583945793</p>
-      <h2>aksjdkashasjkdhkjashdjkashdjkasd</h2>
-      <button>Read More</button>
+      <p className="text-secondary">Created on: {date}</p>
+      <h2>{title}</h2>
+      <Link to={"/posts/" + id} className="btn btn-primary">Read More</Link>
     </div>
   );
 };

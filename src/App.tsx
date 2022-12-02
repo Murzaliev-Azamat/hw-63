@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import Home from "./containers/Home/Home";
-import AddPost from "./containers/AddFormPost/AddPost";
+import AddPost from "./containers/AddPost/AddPost";
 import About from "./containers/About/About";
 import Contacts from "./containers/Contacts/Contacts";
 import {NavLink, Route, Routes} from "react-router-dom";
+import EditPost from "./containers/EditPost/EditPost";
+import {Post, PostList} from "./types";
+import axiosApi from "./axiosApi";
+import FullPost from "./containers/FullPost/FullPost";
 
 function App() {
+
   return (
     <div className="App">
       <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: 'lightgray'}}>
@@ -16,7 +21,7 @@ function App() {
           <NavLink to={"/"} className={({ isActive }) => isActive ? 'nav-link disabled' : 'nav-link'}>Menu</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to={"/Add"} className={({ isActive }) => isActive ? 'nav-link disabled' : 'nav-link'}>Add</NavLink>
+          <NavLink to={"/AddPost"} className={({ isActive }) => isActive ? 'nav-link disabled' : 'nav-link'}>Add</NavLink>
         </li>
         <li className="nav-item">
           <NavLink to={"/About"} className={({ isActive }) => isActive ? 'nav-link disabled' : 'nav-link'}>About</NavLink>
@@ -30,13 +35,19 @@ function App() {
         <Route path="/" element={(
           <Home/>
         )}/>
-        <Route path="Add" element={(
+        <Route path="/posts/:id" element={(
+          <FullPost/>
+        )}/>
+        <Route path="/AddPost" element={(
           <AddPost/>
         )}/>
-        <Route path="About" element={(
+        <Route path="/EditPost/:id" element={(
+          <EditPost/>
+        )}/>
+        <Route path="/About" element={(
           <About/>
         )}/>
-        <Route path="Contacts" element={(
+        <Route path="/Contacts" element={(
           <Contacts/>
         )}/>
       </Routes>
